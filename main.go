@@ -16,9 +16,12 @@ var homeTemplate *template.Template
 var entriesTemplate *template.Template
 
 type Entry struct {
-	ID    int
-	Title string
-	Text  string
+	ID          int
+	Title       string
+	Text        string
+	Toolname    string
+	CreatedDate string
+	UpdatedDate string
 }
 
 func init() {
@@ -32,7 +35,10 @@ func init() {
 	CREATE TABLE IF NOT EXISTS entries (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		title TEXT NOT NULL,
-		text TEXT NOT NULL
+		text TEXT NOT NULL,
+		toolname TEXT NOT NULL,
+		created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+		updated_date DATETIME DEFAULT CURRENT_TIMESTAMP
 	);
 	`
 	if _, err := db.Exec(schema); err != nil {
@@ -79,13 +85,14 @@ func addEntryHandler(w http.ResponseWriter, r *http.Request) {
 
 	title := strings.TrimSpace(r.FormValue("title"))
 	text := strings.TrimSpace(r.FormValue("text"))
+	toolname := strings.TrimSpace(r.FormValue("toolname"))
 
-	if title == "" || text == "" {
-		http.Error(w, "Title and text are required", http.StatusBadRequest)
+	if title == "" || text == "" || toolname == "" {
+		http.Error(w, "Title, text, and toolname are required", http.StatusBadRequest)
 		return
 	}
 
-	_, err := db.Exec("INSERT INTO entries (title, text) VALUES (?, ?)", title, text)
+	_, err := db.Exec("INSERT INTO entries (title, text, toolname, created_date, updated_date) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)", title, text, toolname)
 	if err != nil {
 		http.Error(w, "Failed to add entry", http.StatusInternalServerError)
 		return
@@ -106,7 +113,7 @@ func entriesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func renderEntries(w http.ResponseWriter) {
-	rows, err := db.Query("SELECT id, title, text FROM entries ORDER BY id DESC")
+	rows, err := db.Query("SELECT id, title, text, toolname, created_date, updated_date FROM entries ORDER BY id DESC")
 	if err != nil {
 		fmt.Fprint(w, `<p style="color: red;">Error loading entries</p>`)
 		return
@@ -116,7 +123,7 @@ func renderEntries(w http.ResponseWriter) {
 	var entries []Entry
 	for rows.Next() {
 		var entry Entry
-		if err := rows.Scan(&entry.ID, &entry.Title, &entry.Text); err != nil {
+		if err := rows.Scan(&entry.ID, &entry.Title, &entry.Text, &entry.Toolname, &entry.CreatedDate, &entry.UpdatedDate); err != nil {
 			continue
 		}
 		entries = append(entries, entry)
