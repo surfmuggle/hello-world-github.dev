@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background:#f5f5f5; }
+        .card { background:white; padding:20px; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.06); }
+        .form-group { margin-bottom: 12px; }
+        label { display:block; margin-bottom:6px; font-weight:500; }
+        input[type="text"], textarea, select { width:100%; padding:8px; border:1px solid #ddd; border-radius:4px; }
+        .desc { color:#666; font-size:13px; margin-top:6px; }
+        button { background:#4CAF50; color:white; padding:8px 12px; border:none; border-radius:4px; }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            {{template "nav.html" .}}
+        </aside>
+        <main class="content">
+            <div class="card">
+                <h1>Questionnaire</h1>
+                <form method="post" action="/submit-questionnaire">
+                    {{range .Fields}}{{.}}{{end}}
+                    <div class="form-group">
+                        <button type="submit">Absenden</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

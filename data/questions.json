@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Vorname",
+    "description": "Bitte geben Sie Ihren Vornamen ein.",
+    "formtype": "input text",
+    "name": "first_name"
+  },
+  {
+    "title": "Nachname",
+    "description": "Bitte geben Sie Ihren Nachnamen ein.",
+    "formtype": "input text",
+    "name": "last_name"
+  },
+  {
+    "title": "Geschlecht",
+    "description": "Wählen Sie Ihr Geschlecht.",
+    "formtype": "input radio",
+    "name": "gender",
+    "options": ["Weiblich", "Männlich", "Divers"]
+  },
+  {
+    "title": "Interessen",
+    "description": "Wählen Sie alle zutreffenden Interessen.",
+    "formtype": "input checkbox",
+    "name": "interests",
+    "options": ["Programmieren", "Design", "DevOps", "Docs"]
+  },
+  {
+    "title": "Kommentar",
+    "description": "Optionale Notiz.",
+    "formtype": "textarea",
+    "name": "comment"
+  }
+]

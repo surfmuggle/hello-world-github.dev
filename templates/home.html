@@ -101,9 +101,16 @@
 	</style>
 </head>
 <body>
-	<h1>Entry Manager</h1>
-	
-	<div class="form-container">
+	<div class="layout">
+		<aside class="sidebar">
+			{{template "nav.html" .}}
+		</aside>
+
+		<main class="content">
+
+			<h1>Entry Manager</h1>
+
+			<div class="form-container">
 		<form hx-post="/add-entry" hx-target="#entries" hx-swap="innerHTML" hx-on="htmx:afterRequest: this.reset()">
 			<div class="form-group">
 				<label for="title">Title:</label>
@@ -124,11 +131,16 @@
 		</form>
 	</div>
 
-	<div class="entries-container">
+	        </div>
+
+	    <div class="entries-container">
 		<h2>Entries</h2>
 		<div id="entries" hx-get="/entries" hx-trigger="load">
 			Loading...
 		</div>
 	</div>
+
+        </main>
+    </div>
 </body>
 </html>

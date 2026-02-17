@@ -2,4 +2,4 @@ module mytest
 
 go 1.25.4
 
-require github.com/ncruces/go-sqlite3 v0.17.2
+require github.com/mattn/go-sqlite3 v1.14.15
