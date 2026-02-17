@@ -1,0 +1,10 @@
+{{if .}}
+	{{range .}}
+		<div class="entry">
+			<div class="entry-title">{{.Title}}</div>
+			<div class="entry-text">{{.Text}}</div>
+		</div>
+	{{end}}
+{{else}}
+	<p style="color: #999;">No entries yet. Add one above!</p>
+{{end}}
